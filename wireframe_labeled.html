@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study IT — ワイヤーフレーム一覧</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Noto Sans JP",sans-serif;background:#F8FAFC;color:#1E293B;padding:40px;}
+h1{font-size:24px;font-weight:600;margin-bottom:6px;color:#1E293B;}
+.sub{font-size:13px;color:#64748B;margin-bottom:40px;}
+.screen-section{margin-bottom:48px;}
+.screen-title{font-size:13px;font-weight:600;color:#64748B;letter-spacing:.5px;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #E2E8F0;}
+.screen{background:#fff;border:1px solid #CBD5E1;border-radius:12px;display:flex;overflow:hidden;min-height:360px;}
+.sidebar{width:130px;flex-shrink:0;border-right:1px solid #E2E8F0;padding:12px 8px;display:flex;flex-direction:column;gap:6px;}
+.sb-logo{height:32px;background:#F1F5F9;border-radius:6px;border:1px dashed #CBD5E1;display:flex;align-items:center;justify-content:center;font-size:9px;color:#94A3B8;margin-bottom:6px;}
+.sb-item{height:26px;border-radius:6px;border:1px dashed #CBD5E1;display:flex;align-items:center;padding:0 8px;gap:5px;font-size:9px;color:#64748B;}
+.sb-item.active{background:#F1F5F9;border-style:solid;border-color:#94A3B8;color:#1E293B;font-weight:600;}
+.sb-dot{width:8px;height:8px;border-radius:50%;background:#CBD5E1;flex-shrink:0;}
+.sb-dot.filled{background:#64748B;}
+.main{flex:1;padding:14px;display:flex;flex-direction:column;gap:10px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;border-bottom:1px solid #F1F5F9;}
+.lbl{font-size:8px;color:#94A3B8;background:#F8FAFC;border:1px dashed #CBD5E1;border-radius:3px;padding:1px 5px;display:inline-block;margin-bottom:3px;}
+.bar{height:6px;border-radius:2px;background:#E2E8F0;}
+.bar.dark{background:#CBD5E1;}
+.bar.w90{width:90%;}.bar.w70{width:70%;}.bar.w60{width:60%;}.bar.w50{width:50%;}.bar.w40{width:40%;}.bar.w30{width:30%;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.wf-card{border:1px dashed #CBD5E1;border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:4px;position:relative;}
+.wf-card .clbl{font-size:8px;color:#94A3B8;position:absolute;top:-7px;left:6px;background:#fff;padding:0 3px;}
+.wf-btn{height:16px;border-radius:6px;background:#CBD5E1;width:55%;}
+.wf-btn.sm{width:30%;height:14px;}
+.wf-btn.full{width:100%;}
+.wf-btn.light{background:#E2E8F0;}
+.avatar{width:26px;height:26px;border-radius:50%;background:#CBD5E1;border:1px dashed #94A3B8;}
+.notif{width:26px;height:26px;border-radius:50%;background:#F1F5F9;border:1px dashed #CBD5E1;}
+.stat-num{height:16px;width:44px;background:#CBD5E1;border-radius:3px;}
+.prog-wrap{height:8px;background:#E2E8F0;border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;width:80%;background:#CBD5E1;border-radius:3px;}
+.input-wf{height:22px;border:1px dashed #CBD5E1;border-radius:6px;background:#fff;display:flex;align-items:center;padding:0 8px;}
+.input-wf span{font-size:8px;color:#CBD5E1;}
+.badge-wf{height:14px;width:40px;border-radius:999px;background:#CBD5E1;display:inline-block;}
+.code-wf{background:#F1F5F9;border-radius:6px;padding:6px;border:1px dashed #CBD5E1;}
+.progress-step{display:flex;align-items:center;gap:4px;margin-bottom:4px;}
+.step-bar{flex:1;height:6px;background:#E2E8F0;border-radius:3px;overflow:hidden;}
+.step-fill{height:100%;width:30%;background:#CBD5E1;}
+.tbl-row{display:flex;gap:4px;padding:3px 0;border-bottom:1px solid #F1F5F9;}
+.tbl-cell{flex:1;height:8px;background:#E2E8F0;border-radius:2px;}
+.tbl-cell.hd{background:#CBD5E1;}
+@media print{
+  body{padding:20px;background:#fff;}
+  .screen-section{break-inside:avoid;margin-bottom:32px;}
+}
+</style>
+</head>
+<body>
+
+<h1>Study IT — ワイヤーフレーム一覧</h1>
+<p class="sub">全12画面のレイアウト設計図 / Oracle Silver SQL 学習アプリ（各要素の配置・役割を示す）</p>
+
+<!-- 01 login -->
+<div class="screen-section">
+<div class="screen-title">01 · ログイン画面（login.html）</div>
+<div class="screen" style="min-height:300px;">
+  <div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:8px;justify-content:center;border-right:1px solid #F1F5F9;">
+    <span class="lbl">左エリア：ブランディング・SQLコードカード</span>
+    <div class="wf-card" style="height:40px;"><span class="clbl">ロゴ＋アプリ名</span></div>
+    <div class="bar dark w70"></div>
+    <div class="bar w90"></div>
+    <div class="code-wf" style="height:80px;display:flex;align-items:center;justify-content:center;">
+      <span class="lbl">SQLコードサンプル表示エリア</span>
+    </div>
+  </div>
+  <div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:8px;justify-content:center;">
+    <span class="lbl">右エリア：ログインフォーム</span>
+    <div class="bar dark w60"></div>
+    <div class="bar w90"></div>
+    <div class="input-wf"><span>メールアドレス入力フィールド</span></div>
+    <div class="input-wf"><span>パスワード入力フィールド</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="bar w40" style="height:8px;"></div>
+      <div class="bar w30" style="height:8px;"></div>
+    </div>
+    <div class="wf-btn full"></div>
+    <span class="lbl">ログインボタン</span>
+    <div style="display:flex;align-items:center;gap:4px;"><div class="bar w40"></div><div class="bar w20" style="width:20%;"></div><div class="bar w40"></div></div>
+    <div class="bar w90" style="margin-top:4px;"></div>
+    <span class="lbl">新規登録へのリンク</span>
+  </div>
+</div>
+</div>
+
+<!-- 02 register -->
+<div class="screen-section">
+<div class="screen-title">02 · 新規登録画面（register.html）</div>
+<div class="screen" style="min-height:300px;">
+  <div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:8px;justify-content:center;border-right:1px solid #F1F5F9;">
+    <span class="lbl">左エリア：ブランディング</span>
+    <div class="wf-card" style="height:40px;"><span class="clbl">ロゴ＋アプリ名</span></div>
+    <div class="bar dark w70"></div>
+    <div class="code-wf" style="height:80px;display:flex;align-items:center;justify-content:center;">
+      <span class="lbl">SQLコードサンプル表示エリア</span>
+    </div>
+  </div>
+  <div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:8px;justify-content:center;">
+    <span class="lbl">右エリア：登録フォーム</span>
+    <div class="bar dark w60"></div>
+    <div class="bar w90"></div>
+    <div class="input-wf"><span>ユーザー名入力フィールド</span></div>
+    <div class="input-wf"><span>メールアドレス入力フィールド</span></div>
+    <div class="input-wf"><span>パスワード入力フィールド</span></div>
+    <div class="input-wf"><span>パスワード確認入力フィールド</span></div>
+    <div class="wf-btn full"></div>
+    <span class="lbl">登録ボタン</span>
+    <div class="bar w90" style="margin-top:4px;"></div>
+    <span class="lbl">ログインへ戻るリンク</span>
+  </div>
+</div>
+</div>
+
+<!-- 03 home -->
+<div class="screen-section">
+<div class="screen-title">03 · ホーム画面 / ダッシュボード（home.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>ホーム</div>
+    <div class="sb-item"><div class="sb-dot"></div>単語一覧</div>
+    <div class="sb-item"><div class="sb-dot"></div>クイズ</div>
+    <div class="sb-item"><div class="sb-dot"></div>お気に入り</div>
+    <div class="sb-item"><div class="sb-dot"></div>学習履歴</div>
+    <div class="sb-item"><div class="sb-dot"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル・ユーザー名挨拶</span><div class="bar dark w70" style="margin-top:4px;"></div><div class="bar w50" style="margin-top:3px;"></div></div>
+      <div style="display:flex;gap:6px;align-items:center;"><span class="lbl">通知</span><div class="notif"></div><span class="lbl">アバター</span><div class="avatar"></div></div>
+    </div>
+    <div><span class="lbl">統計カード × 3（連続学習日数 / 登録単語数 / 正答率）</span>
+    <div class="grid3" style="margin-top:4px;">
+      <div class="wf-card"><span class="clbl">連続学習日数</span><div class="bar dark w60"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+      <div class="wf-card"><span class="clbl">登録単語数</span><div class="bar dark w60"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+      <div class="wf-card"><span class="clbl">正答率</span><div class="bar dark w60"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+    </div></div>
+    <div><span class="lbl">今日のコンテンツエリア</span>
+    <div class="grid2" style="margin-top:4px;">
+      <div class="wf-card" style="min-height:80px;"><span class="clbl">Today's Word（今日の単語）</span><div class="bar dark w70"></div><div class="bar w90" style="margin-top:3px;"></div><div class="bar w70"></div><div class="wf-btn" style="margin-top:6px;"></div><span class="lbl" style="margin-top:4px;">「詳しく見る」ボタン</span></div>
+      <div class="wf-card" style="min-height:80px;background:#F1F5F9;"><span class="clbl">Today's Quiz（クイズCTAカード）</span><div class="bar dark w70"></div><div class="bar w90" style="margin-top:3px;"></div><div class="wf-btn light" style="margin-top:6px;"></div><span class="lbl" style="margin-top:4px;">グラデーションカード / START QUIZボタン</span></div>
+    </div></div>
+    <div><span class="lbl">学習情報エリア</span>
+    <div class="grid2" style="margin-top:4px;">
+      <div class="wf-card" style="min-height:70px;"><span class="clbl">学習進捗（プログレスバー）</span><div class="bar dark w70"></div><div class="bar w90" style="margin-top:3px;"></div><div class="prog-wrap" style="margin-top:6px;"><div class="prog-fill"></div></div><span class="lbl" style="margin-top:4px;">進捗率 % 表示</span></div>
+      <div class="wf-card" style="min-height:70px;"><span class="clbl">最近学習した単語リスト</span><div class="bar dark w50"></div><div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;"><div class="bar w70"></div><div class="bar w60"></div><div class="bar w50"></div></div><span class="lbl" style="margin-top:4px;">単語名をリスト表示</span></div>
+    </div></div>
+  </div>
+</div>
+</div>
+
+<!-- 04 words -->
+<div class="screen-section">
+<div class="screen-title">04 · 単語一覧画面（words.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item"><div class="sb-dot"></div>ホーム</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>単語一覧</div>
+    <div class="sb-item"><div class="sb-dot"></div>クイズ</div>
+    <div class="sb-item"><div class="sb-dot"></div>お気に入り</div>
+    <div class="sb-item"><div class="sb-dot"></div>学習履歴</div>
+    <div class="sb-item"><div class="sb-dot"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル</span><div class="bar dark w70" style="margin-top:4px;"></div><div class="bar w50" style="margin-top:3px;"></div></div>
+      <div style="display:flex;gap:6px;align-items:center;"><div class="notif"></div><div class="avatar"></div></div>
+    </div>
+    <div><span class="lbl">キーワード検索ボックス</span><div class="input-wf style="margin-top:4px;"><span>SQLキーワードを検索...</span></div></div>
+    <div><span class="lbl">絞り込みフィルター（カテゴリ / 難易度 / 並び順）</span>
+    <div style="display:flex;gap:6px;margin-top:4px;">
+      <div class="input-wf" style="flex:1;"><span>カテゴリ選択</span></div>
+      <div class="input-wf" style="flex:1;"><span>難易度選択</span></div>
+      <div class="input-wf" style="flex:1;"><span>並び順選択</span></div>
+    </div></div>
+    <div><span class="lbl">単語カードグリッド（3列）</span>
+    <div class="grid3" style="margin-top:4px;">
+      <div class="wf-card"><span class="clbl">単語カード</span><div class="bar dark w70"></div><div class="bar w90" style="margin-top:3px;"></div><div class="bar w70"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;"><div class="badge-wf"></div><div class="bar w30"></div></div><span class="lbl" style="margin-top:3px;">習熟度バッジ / 詳細リンク</span></div>
+      <div class="wf-card"><span class="clbl">単語カード</span><div class="bar dark w70"></div><div class="bar w90" style="margin-top:3px;"></div><div class="bar w70"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;"><div class="badge-wf"></div><div class="bar w30"></div></div></div>
+      <div class="wf-card"><span class="clbl">単語カード</span><div class="bar dark w70"></div><div class="bar w90" style="margin-top:3px;"></div><div class="bar w70"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;"><div class="badge-wf"></div><div class="bar w30"></div></div></div>
+    </div></div>
+    <div style="display:flex;justify-content:center;gap:6px;margin-top:4px;"><span class="lbl">ページネーション（← 1 2 3 ... →）</span></div>
+  </div>
+</div>
+</div>
+
+<!-- 05 word_detail -->
+<div class="screen-section">
+<div class="screen-title">05 · 単語詳細画面（word_detail.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item"><div class="sb-dot"></div>ホーム</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>単語一覧</div>
+    <div class="sb-item"><div class="sb-dot"></div>クイズ</div>
+    <div class="sb-item"><div class="sb-dot"></div>お気に入り</div>
+    <div class="sb-item"><div class="sb-dot"></div>学習履歴</div>
+    <div class="sb-item"><div class="sb-dot"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル</span><div class="bar dark w50" style="margin-top:4px;"></div></div>
+      <div class="wf-btn sm light"><span style="font-size:8px;color:#64748B;">← 単語一覧に戻る</span></div>
+    </div>
+    <div class="wf-card"><span class="clbl">単語メインカード</span>
+      <div style="display:flex;gap:6px;align-items:center;"><div class="badge-wf" style="width:60px;"></div><span class="lbl">カテゴリバッジ</span></div>
+      <div class="bar dark w60" style="height:14px;margin-top:4px;"></div>
+      <span class="lbl">単語名（大きいフォント）</span>
+      <div style="display:flex;gap:6px;align-items:center;margin-top:2px;"><div class="badge-wf"></div><span class="lbl">習熟度バッジ</span></div>
+      <div class="bar w90" style="margin-top:4px;"></div><div class="bar w70"></div>
+      <span class="lbl">単語の説明文</span>
+      <div style="display:flex;gap:6px;margin-top:6px;">
+        <div class="wf-btn sm"></div><div class="wf-btn sm"></div><div class="wf-btn sm light"></div><div class="wf-btn sm light"></div>
+      </div>
+      <span class="lbl">クイズ挑戦 / お気に入り追加 / 前後ナビボタン</span>
+    </div>
+    <div class="grid2">
+      <div class="wf-card" style="min-height:90px;"><span class="clbl">使用例（コードブロック）</span>
+        <div class="code-wf" style="flex:1;min-height:60px;display:flex;flex-direction:column;gap:3px;justify-content:center;">
+          <div class="bar dark w90"></div><div class="bar w70"></div><div class="bar dark w80"></div><div class="bar w60"></div>
+        </div>
+        <span class="lbl" style="margin-top:4px;">SQL構文をコード形式で表示</span>
+      </div>
+      <div class="wf-card" style="min-height:90px;"><span class="clbl">学習情報（カテゴリ / 難易度 / 正解率 / 最終学習日）</span>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
+          <div><span class="lbl">カテゴリ</span><div class="bar dark w60" style="margin-top:2px;"></div></div>
+          <div><span class="lbl">難易度</span><div class="bar dark w50" style="margin-top:2px;"></div></div>
+          <div><span class="lbl">クイズ正解率</span><div class="prog-wrap" style="margin-top:2px;"><div class="prog-fill"></div></div></div>
+          <div><span class="lbl">最終学習日</span><div class="bar dark w70" style="margin-top:2px;"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="wf-card"><span class="clbl">関連単語カードグリッド（3列）</span>
+      <div class="grid3" style="margin-top:4px;">
+        <div class="wf-card"><div class="bar dark w80"></div><div class="bar w90" style="margin-top:3px;"></div></div>
+        <div class="wf-card"><div class="bar dark w80"></div><div class="bar w90" style="margin-top:3px;"></div></div>
+        <div class="wf-card"><div class="bar dark w80"></div><div class="bar w90" style="margin-top:3px;"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 06 quiz -->
+<div class="screen-section">
+<div class="screen-title">06 · クイズ設定画面（quiz.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item"><div class="sb-dot"></div>ホーム</div>
+    <div class="sb-item"><div class="sb-dot"></div>単語一覧</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>クイズ</div>
+    <div class="sb-item"><div class="sb-dot"></div>お気に入り</div>
+    <div class="sb-item"><div class="sb-dot"></div>学習履歴</div>
+    <div class="sb-item"><div class="sb-dot"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル</span><div class="bar dark w60" style="margin-top:4px;"></div><div class="bar w70" style="margin-top:3px;"></div></div>
+      <div style="display:flex;gap:6px;"><div class="notif"></div><div class="avatar"></div></div>
+    </div>
+    <div class="wf-card" style="min-height:120px;"><span class="clbl">クイズ設定カード</span>
+      <span class="lbl">設定項目エリア（カテゴリ / 難易度 / 問題数）</span>
+      <div class="grid3" style="margin-top:6px;">
+        <div class="wf-card"><span class="clbl">カテゴリ選択</span><div class="input-wf" style="margin-top:4px;"><span>選択...</span></div></div>
+        <div class="wf-card"><span class="clbl">難易度選択</span><div class="input-wf" style="margin-top:4px;"><span>選択...</span></div></div>
+        <div class="wf-card"><span class="clbl">問題数選択</span><div class="input-wf" style="margin-top:4px;"><span>10問...</span></div></div>
+      </div>
+      <div class="wf-btn" style="margin-top:10px;"></div>
+      <span class="lbl" style="margin-top:4px;">「クイズ開始」ボタン</span>
+    </div>
+    <div class="wf-card" style="min-height:80px;"><span class="clbl">クイズ履歴・成績サマリーカード</span>
+      <div class="bar dark w50"></div>
+      <div class="grid3" style="margin-top:6px;">
+        <div class="wf-card"><div class="bar dark w70"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+        <div class="wf-card"><div class="bar dark w70"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+        <div class="wf-card"><div class="bar dark w70"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 07 quiz_play -->
+<div class="screen-section">
+<div class="screen-title">07 · クイズ挑戦中画面（quiz_play.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item"><div class="sb-dot"></div>ホーム</div>
+    <div class="sb-item"><div class="sb-dot"></div>単語一覧</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>クイズ</div>
+    <div class="sb-item"><div class="sb-dot"></div>お気に入り</div>
+    <div class="sb-item"><div class="sb-dot"></div>学習履歴</div>
+    <div class="sb-item"><div class="sb-dot"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル「クイズに挑戦中」</span><div class="bar dark w60" style="margin-top:4px;"></div></div>
+      <div class="wf-btn sm light"><span style="font-size:8px;color:#64748B;">× 中断して戻る</span></div>
+    </div>
+    <div class="wf-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span class="lbl">問題カウンター（例：問題 1 / 10）</span>
+        <div class="bar dark w30"></div>
+      </div>
+      <div class="progress-step"><div class="step-bar"><div class="step-fill"></div></div></div>
+      <span class="lbl">進捗バー（解答状況を視覚化）</span>
+      <div style="display:flex;gap:4px;margin-top:4px;align-items:center;"><div class="badge-wf" style="width:60px;"></div><span class="lbl">カテゴリバッジ</span></div>
+      <div class="bar dark w90" style="margin-top:4px;"></div>
+      <div class="bar w70"></div>
+      <div class="bar w80"></div>
+      <span class="lbl">問題文テキスト</span>
+      <div class="code-wf" style="margin-top:6px;min-height:40px;display:flex;flex-direction:column;gap:3px;justify-content:center;">
+        <div class="bar dark w90"></div><div class="bar w70"></div><div class="bar dark w80"></div>
+      </div>
+      <span class="lbl">SQLコードブロック（問題文に含まれる場合）</span>
+      <div class="grid2" style="margin-top:6px;">
+        <div class="wf-card"><span class="clbl">選択肢 1</span><div class="bar dark w80"></div></div>
+        <div class="wf-card"><span class="clbl">選択肢 2</span><div class="bar dark w80"></div></div>
+        <div class="wf-card" style="background:#F1F5F9;border-style:solid;border-color:#94A3B8;"><span class="clbl">選択肢 3（選択中）</span><div class="bar dark w80"></div></div>
+        <div class="wf-card"><span class="clbl">選択肢 4</span><div class="bar dark w80"></div></div>
+      </div>
+      <span class="lbl" style="margin-top:4px;">選択肢ボタン × 4（クリックで選択状態切替）</span>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px;"><div class="wf-btn sm"></div></div>
+      <span class="lbl" style="text-align:right;">「次の問題へ」ボタン</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 08 quiz_result -->
+<div class="screen-section">
+<div class="screen-title">08 · クイズ結果画面（quiz_result.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item"><div class="sb-dot"></div>ホーム</div>
+    <div class="sb-item"><div class="sb-dot"></div>単語一覧</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>クイズ</div>
+    <div class="sb-item"><div class="sb-dot"></div>お気に入り</div>
+    <div class="sb-item"><div class="sb-dot"></div>学習履歴</div>
+    <div class="sb-item"><div class="sb-dot"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル</span><div class="bar dark w60" style="margin-top:4px;"></div></div>
+      <div style="display:flex;gap:6px;"><div class="notif"></div><div class="avatar"></div></div>
+    </div>
+    <div class="wf-card" style="align-items:center;gap:8px;padding:16px;">
+      <span class="lbl">スコア表示エリア（中央配置）</span>
+      <div style="width:60px;height:60px;border-radius:50%;background:#F1F5F9;border:1px dashed #CBD5E1;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;color:#94A3B8;">スコア</span></div>
+      <div class="bar dark w50" style="margin-top:4px;"></div>
+      <span class="lbl">「X問正解 / 10問」テキスト</span>
+      <div class="bar w70"></div>
+      <span class="lbl">コメントメッセージ</span>
+      <div class="grid3" style="width:100%;margin-top:8px;">
+        <div class="wf-card"><span class="clbl">正解数</span><div class="stat-num" style="margin-top:4px;"></div></div>
+        <div class="wf-card"><span class="clbl">不正解数</span><div class="stat-num" style="margin-top:4px;"></div></div>
+        <div class="wf-card"><span class="clbl">正答率</span><div class="stat-num" style="margin-top:4px;"></div></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <div class="wf-btn"></div><div class="wf-btn light"></div>
+      </div>
+      <span class="lbl">「もう一度挑戦」「単語一覧へ」ボタン</span>
+    </div>
+    <div class="wf-card" style="min-height:60px;"><span class="clbl">間違えた単語一覧（復習リスト）</span>
+      <div class="bar dark w50"></div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+        <div class="bar w70"></div><div class="bar w60"></div><div class="bar w80"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 09 favorite -->
+<div class="screen-section">
+<div class="screen-title">09 · お気に入り単語画面（favorite.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item"><div class="sb-dot"></div>ホーム</div>
+    <div class="sb-item"><div class="sb-dot"></div>単語一覧</div>
+    <div class="sb-item"><div class="sb-dot"></div>クイズ</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>お気に入り</div>
+    <div class="sb-item"><div class="sb-dot"></div>学習履歴</div>
+    <div class="sb-item"><div class="sb-dot"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル「お気に入り単語」</span><div class="bar dark w60" style="margin-top:4px;"></div><div class="bar w50" style="margin-top:3px;"></div></div>
+      <div style="display:flex;gap:6px;"><div class="notif"></div><div class="avatar"></div></div>
+    </div>
+    <div><span class="lbl">お気に入り単語カードグリッド（3列）</span>
+    <div class="grid3" style="margin-top:4px;">
+      <div class="wf-card"><span class="clbl">単語カード</span><div class="bar dark w70"></div><div class="bar w90" style="margin-top:3px;"></div><div class="bar w70"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;"><div class="badge-wf"></div><div class="bar w30"></div></div><span class="lbl" style="margin-top:3px;">習熟度バッジ / 詳細リンク</span></div>
+      <div class="wf-card"><span class="clbl">単語カード</span><div class="bar dark w70"></div><div class="bar w90" style="margin-top:3px;"></div><div class="bar w70"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;"><div class="badge-wf"></div><div class="bar w30"></div></div></div>
+      <div class="wf-card"><span class="clbl">単語カード</span><div class="bar dark w70"></div><div class="bar w90" style="margin-top:3px;"></div><div class="bar w70"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;"><div class="badge-wf"></div><div class="bar w30"></div></div></div>
+    </div></div>
+    <div style="display:flex;justify-content:center;gap:6px;margin-top:8px;"><span class="lbl">ページネーション（← 1 2 3 →）</span></div>
+  </div>
+</div>
+</div>
+
+<!-- 10 history -->
+<div class="screen-section">
+<div class="screen-title">10 · 学習履歴画面（history.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item"><div class="sb-dot"></div>ホーム</div>
+    <div class="sb-item"><div class="sb-dot"></div>単語一覧</div>
+    <div class="sb-item"><div class="sb-dot"></div>クイズ</div>
+    <div class="sb-item"><div class="sb-dot"></div>お気に入り</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>学習履歴</div>
+    <div class="sb-item"><div class="sb-dot"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル「学習履歴」</span><div class="bar dark w60" style="margin-top:4px;"></div></div>
+      <div style="display:flex;gap:6px;"><div class="notif"></div><div class="avatar"></div></div>
+    </div>
+    <div><span class="lbl">統計サマリーカード × 3</span>
+    <div class="grid3" style="margin-top:4px;">
+      <div class="wf-card"><span class="clbl">総学習時間</span><div class="bar dark w60"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+      <div class="wf-card"><span class="clbl">クイズ回数</span><div class="bar dark w60"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+      <div class="wf-card"><span class="clbl">平均正答率</span><div class="bar dark w60"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+    </div></div>
+    <div class="grid2">
+      <div class="wf-card" style="min-height:100px;"><span class="clbl">学習カレンダー / 草グラフ</span>
+        <div class="bar dark w50"></div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:8px;">
+          <div style="height:12px;background:#E2E8F0;border-radius:2px;"></div><div style="height:12px;background:#CBD5E1;border-radius:2px;"></div><div style="height:12px;background:#E2E8F0;border-radius:2px;"></div><div style="height:12px;background:#CBD5E1;border-radius:2px;"></div><div style="height:12px;background:#E2E8F0;border-radius:2px;"></div><div style="height:12px;background:#CBD5E1;border-radius:2px;"></div><div style="height:12px;background:#94A3B8;border-radius:2px;"></div>
+          <div style="height:12px;background:#CBD5E1;border-radius:2px;"></div><div style="height:12px;background:#E2E8F0;border-radius:2px;"></div><div style="height:12px;background:#94A3B8;border-radius:2px;"></div><div style="height:12px;background:#E2E8F0;border-radius:2px;"></div><div style="height:12px;background:#CBD5E1;border-radius:2px;"></div><div style="height:12px;background:#E2E8F0;border-radius:2px;"></div><div style="height:12px;background:#CBD5E1;border-radius:2px;"></div>
+        </div>
+        <span class="lbl" style="margin-top:6px;">日別学習記録をカレンダー形式で表示</span>
+      </div>
+      <div class="wf-card" style="min-height:100px;"><span class="clbl">正答率推移グラフ</span>
+        <div class="bar dark w50"></div>
+        <div style="display:flex;align-items:flex-end;gap:4px;height:60px;margin-top:8px;padding-top:8px;">
+          <div style="flex:1;background:#E2E8F0;height:40%;border-radius:3px 3px 0 0;"></div>
+          <div style="flex:1;background:#CBD5E1;height:60%;border-radius:3px 3px 0 0;"></div>
+          <div style="flex:1;background:#E2E8F0;height:50%;border-radius:3px 3px 0 0;"></div>
+          <div style="flex:1;background:#CBD5E1;height:80%;border-radius:3px 3px 0 0;"></div>
+          <div style="flex:1;background:#94A3B8;height:70%;border-radius:3px 3px 0 0;"></div>
+        </div>
+        <span class="lbl" style="margin-top:4px;">クイズ回別の正答率を棒グラフで表示</span>
+      </div>
+    </div>
+    <div class="wf-card"><span class="clbl">クイズ履歴リスト（日時 / スコア / カテゴリ）</span>
+      <div class="bar dark w50"></div>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+        <div class="tbl-row"><div class="tbl-cell hd"></div><div class="tbl-cell hd"></div><div class="tbl-cell hd"></div><div class="tbl-cell hd"></div></div>
+        <div class="tbl-row"><div class="tbl-cell"></div><div class="tbl-cell"></div><div class="tbl-cell"></div><div class="tbl-cell"></div></div>
+        <div class="tbl-row"><div class="tbl-cell"></div><div class="tbl-cell"></div><div class="tbl-cell"></div><div class="tbl-cell"></div></div>
+      </div>
+      <span class="lbl" style="margin-top:4px;">ヘッダー行（日時 / 問題数 / 正解数 / 正答率）</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 11 admin -->
+<div class="screen-section">
+<div class="screen-title">11 · 管理画面（admin.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item"><div class="sb-dot"></div>ホーム</div>
+    <div class="sb-item"><div class="sb-dot"></div>単語一覧</div>
+    <div class="sb-item"><div class="sb-dot"></div>クイズ</div>
+    <div class="sb-item"><div class="sb-dot"></div>お気に入り</div>
+    <div class="sb-item"><div class="sb-dot"></div>学習履歴</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル「管理画面」</span><div class="bar dark w60" style="margin-top:4px;"></div></div>
+      <div style="display:flex;gap:6px;"><div class="notif"></div><div class="avatar"></div></div>
+    </div>
+    <div><span class="lbl">管理サマリーカード × 2（総単語数 / ユーザー数）</span>
+    <div class="grid2" style="margin-top:4px;">
+      <div class="wf-card"><span class="clbl">総単語数</span><div class="bar dark w60"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+      <div class="wf-card"><span class="clbl">登録ユーザー数</span><div class="bar dark w60"></div><div class="stat-num" style="margin-top:4px;"></div></div>
+    </div></div>
+    <div class="wf-card"><span class="clbl">単語管理テーブル</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+        <div class="bar dark w40"></div>
+        <div class="wf-btn sm"></div>
+      </div>
+      <span class="lbl" style="margin-top:4px;">「単語を追加」ボタン</span>
+      <div style="display:flex;flex-direction:column;gap:4px;margin-top:8px;border-top:1px solid #F1F5F9;padding-top:8px;">
+        <div class="tbl-row"><div class="tbl-cell hd" style="flex:2;"></div><div class="tbl-cell hd" style="flex:1;"></div><div class="tbl-cell hd" style="flex:1;"></div><div class="tbl-cell hd" style="flex:1;"></div></div>
+        <span class="lbl">テーブルヘッダー（単語名 / カテゴリ / 難易度 / 操作）</span>
+        <div class="tbl-row"><div class="tbl-cell" style="flex:2;"></div><div class="tbl-cell" style="flex:1;"></div><div class="badge-wf" style="flex:1;width:auto;height:10px;"></div><div style="flex:1;display:flex;gap:3px;"><div class="wf-btn sm" style="height:10px;flex:1;"></div><div class="wf-btn sm light" style="height:10px;flex:1;"></div></div></div>
+        <div class="tbl-row"><div class="tbl-cell" style="flex:2;"></div><div class="tbl-cell" style="flex:1;"></div><div class="badge-wf" style="flex:1;width:auto;height:10px;"></div><div style="flex:1;display:flex;gap:3px;"><div class="wf-btn sm" style="height:10px;flex:1;"></div><div class="wf-btn sm light" style="height:10px;flex:1;"></div></div></div>
+        <div class="tbl-row"><div class="tbl-cell" style="flex:2;"></div><div class="tbl-cell" style="flex:1;"></div><div class="badge-wf" style="flex:1;width:auto;height:10px;"></div><div style="flex:1;display:flex;gap:3px;"><div class="wf-btn sm" style="height:10px;flex:1;"></div><div class="wf-btn sm light" style="height:10px;flex:1;"></div></div></div>
+        <span class="lbl">各行：編集ボタン / 削除ボタン</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 12 admin_words -->
+<div class="screen-section">
+<div class="screen-title">12 · 単語編集画面（admin_words.html）</div>
+<div class="screen">
+  <div class="sidebar">
+    <div class="sb-logo">ロゴ / アプリ名</div>
+    <div class="sb-item"><div class="sb-dot"></div>ホーム</div>
+    <div class="sb-item"><div class="sb-dot"></div>単語一覧</div>
+    <div class="sb-item"><div class="sb-dot"></div>クイズ</div>
+    <div class="sb-item"><div class="sb-dot"></div>お気に入り</div>
+    <div class="sb-item"><div class="sb-dot"></div>学習履歴</div>
+    <div class="sb-item active"><div class="sb-dot filled"></div>管理画面</div>
+    <div style="margin-top:auto;"><div class="sb-item" style="color:#EF4444;border-color:#FCA5A5;"><div class="sb-dot" style="background:#FCA5A5;"></div>ログアウト</div></div>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div><span class="lbl">ページタイトル「単語編集」</span><div class="bar dark w60" style="margin-top:4px;"></div></div>
+      <div class="wf-btn sm light"><span style="font-size:8px;color:#64748B;">← 管理画面に戻る</span></div>
+    </div>
+    <div class="wf-card"><span class="clbl">単語編集フォームカード</span>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+        <div><span class="lbl">単語名入力フィールド</span><div class="input-wf" style="margin-top:3px;"><span>例：INNER JOIN</span></div></div>
+        <div><span class="lbl">説明文入力エリア（テキストエリア）</span>
+          <div style="height:50px;border:1px dashed #CBD5E1;border-radius:6px;background:#fff;display:flex;align-items:flex-start;padding:6px;margin-top:3px;">
+            <span style="font-size:8px;color:#CBD5E1;">説明文を入力...</span>
+          </div>
+        </div>
+        <div class="grid2">
+          <div><span class="lbl">カテゴリ選択（セレクトボックス）</span><div class="input-wf" style="margin-top:3px;"><span>カテゴリ選択...</span></div></div>
+          <div><span class="lbl">難易度選択（セレクトボックス）</span><div class="input-wf" style="margin-top:3px;"><span>難易度選択...</span></div></div>
+        </div>
+        <div><span class="lbl">使用例（SQLコード）入力エリア</span>
+          <div style="height:50px;border:1px dashed #CBD5E1;border-radius:6px;background:#F1F5F9;display:flex;align-items:flex-start;padding:6px;margin-top:3px;">
+            <span style="font-size:8px;color:#CBD5E1;">SELECT ... FROM ... ;</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <div class="wf-btn"></div>
+          <div class="wf-btn light"></div>
+        </div>
+        <span class="lbl">「保存」ボタン / 「キャンセル」ボタン</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>
