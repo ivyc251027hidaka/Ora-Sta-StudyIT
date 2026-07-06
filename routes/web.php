@@ -18,3 +18,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+// 単語
+Route::middleware('auth')->group(function () {
+    Route::get('/words', [App\Http\Controllers\WordController::class, 'index'])->name('words.index');
+    Route::get('/words/{word}', [App\Http\Controllers\WordController::class, 'show'])->name('words.show');
+});
