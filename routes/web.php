@@ -54,3 +54,13 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history.index');
 });
+
+// 管理画面
+Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('index');
+    Route::get('/words/create', [App\Http\Controllers\AdminController::class, 'create'])->name('words.create');
+    Route::post('/words', [App\Http\Controllers\AdminController::class, 'store'])->name('words.store');
+    Route::get('/words/{word}/edit', [App\Http\Controllers\AdminController::class, 'edit'])->name('words.edit');
+    Route::put('/words/{word}', [App\Http\Controllers\AdminController::class, 'update'])->name('words.update');
+    Route::delete('/words/{word}', [App\Http\Controllers\AdminController::class, 'destroy'])->name('words.destroy');
+});
