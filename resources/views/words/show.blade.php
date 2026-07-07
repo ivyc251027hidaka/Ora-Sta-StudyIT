@@ -20,6 +20,13 @@
             <p class="text-sm text-gray-600 leading-relaxed mb-4">{{ $word->description }}</p>
 
             <div class="flex gap-3">
+                <form method="POST" action="{{ route('favorites.toggle', $word) }}">
+                    @csrf
+                    <button type="submit"
+                            class="text-xs px-3 py-1.5 rounded-lg border border-yellow-300 text-yellow-600 hover:bg-yellow-50">
+                        ⭐ お気に入り{{ auth()->user()->favorites()->where('word_id', $word->id)->exists() ? '解除' : '追加' }}
+                    </button>
+                </form>
                 <a href="{{ route('words.index') }}"
                    class="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-lg hover:bg-gray-200">← 一覧に戻る</a>
             </div>
