@@ -40,3 +40,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/favorites', [App\Http\Controllers\FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/favorites/{word}/toggle', [App\Http\Controllers\FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });
+
+// クイズ
+Route::middleware('auth')->group(function () {
+    Route::get('/quiz', [App\Http\Controllers\QuizController::class, 'index'])->name('quiz.index');
+    Route::post('/quiz/start', [App\Http\Controllers\QuizController::class, 'start'])->name('quiz.start');
+    Route::get('/quiz/play', [App\Http\Controllers\QuizController::class, 'play'])->name('quiz.play');
+    Route::post('/quiz/answer', [App\Http\Controllers\QuizController::class, 'answer'])->name('quiz.answer');
+    Route::get('/quiz/result', [App\Http\Controllers\QuizController::class, 'result'])->name('quiz.result');
+});
