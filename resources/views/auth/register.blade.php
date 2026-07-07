@@ -1,52 +1,94 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録 — Study IT</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex">
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        {{-- 左エリア：ブランディング --}}
+        <div class="hidden lg:flex w-1/2 bg-indigo-900 flex-col justify-center px-16 text-white">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-white mb-2">Study IT</h1>
+                <p class="text-indigo-300 text-sm">Oracle Silver SQL 学習アプリ</p>
+            </div>
+            <p class="text-indigo-200 text-sm leading-relaxed mb-8">
+                SQL用語の暗記・クイズ・お気に入り管理で<br>Oracle Silver SQL合格を目指しましょう。
+            </p>
+            <div class="bg-indigo-800 rounded-xl p-4 font-mono text-xs text-green-400">
+                <p class="text-indigo-400 mb-2">-- Oracle Silver SQL</p>
+                <p>SELECT term, description</p>
+                <p>FROM words</p>
+                <p>WHERE difficulty = 'normal'</p>
+                <p>ORDER BY section;</p>
+            </div>
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        {{-- 右エリア：登録フォーム --}}
+        <div class="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-16">
+            <div class="max-w-md w-full mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">新規登録</h2>
+                <p class="text-sm text-gray-500 mb-8">アカウントを作成して学習を始めましょう。</p>
+
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
+
+                    {{-- 名前 --}}
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">ユーザー名</label>
+                        <input type="text" name="name" value="{{ old('name') }}" required autofocus
+                               class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                               placeholder="例：田中太郎">
+                        @error('name')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- メールアドレス --}}
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">メールアドレス</label>
+                        <input type="email" name="email" value="{{ old('email') }}" required
+                               class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                               placeholder="example@email.com">
+                        @error('email')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- パスワード --}}
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">パスワード</label>
+                        <input type="password" name="password" required
+                               class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                               placeholder="8文字以上">
+                        @error('password')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- パスワード確認 --}}
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">パスワード確認</label>
+                        <input type="password" name="password_confirmation" required
+                               class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                               placeholder="もう一度入力">
+                    </div>
+
+                    <button type="submit"
+                            class="w-full bg-indigo-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
+                        登録する
+                    </button>
+                </form>
+
+                <p class="text-center text-sm text-gray-500 mt-6">
+                    すでにアカウントをお持ちの方は
+                    <a href="{{ route('login') }}" class="text-indigo-600 hover:underline">ログイン</a>
+                </p>
+            </div>
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+</body>
+</html>
