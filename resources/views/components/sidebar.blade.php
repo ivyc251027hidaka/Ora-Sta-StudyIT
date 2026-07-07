@@ -26,26 +26,31 @@
                           {{ request()->routeIs('dashboard') ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-gray-600 hover:bg-gray-100' }}">
                     <span>🏠</span> ホーム
                 </a>
-                <a href="#"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100">
+                <a href="{{ route('words.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm
+                          {{ request()->routeIs('words.*') ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-gray-600 hover:bg-gray-100' }}">
                     <span>📚</span> 単語一覧
                 </a>
-                <a href="#"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100">
+                <a href="{{ route('quiz.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm
+                          {{ request()->routeIs('quiz.*') ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-gray-600 hover:bg-gray-100' }}">
                     <span>🧠</span> クイズ
                 </a>
-                <a href="#"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100">
+                <a href="{{ route('favorites.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm
+                          {{ request()->routeIs('favorites.*') ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-gray-600 hover:bg-gray-100' }}">
                     <span>⭐</span> お気に入り
                 </a>
-                <a href="#"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100">
+                <a href="{{ route('history.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm
+                          {{ request()->routeIs('history.*') ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-gray-600 hover:bg-gray-100' }}">
                     <span>📈</span> 学習履歴
                 </a>
 
                 @if(auth()->user()->role === 'admin')
-                <a href="#"
-                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-100">
+                <a href="{{ route('admin.index') }}"
+                   class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm
+                          {{ request()->routeIs('admin.*') ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-gray-600 hover:bg-gray-100' }}">
                     <span>⚙️</span> 管理画面
                 </a>
                 @endif

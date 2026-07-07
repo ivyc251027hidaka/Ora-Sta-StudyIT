@@ -49,3 +49,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/quiz/answer', [App\Http\Controllers\QuizController::class, 'answer'])->name('quiz.answer');
     Route::get('/quiz/result', [App\Http\Controllers\QuizController::class, 'result'])->name('quiz.result');
 });
+
+// 学習履歴
+Route::middleware('auth')->group(function () {
+    Route::get('/history', [App\Http\Controllers\HistoryController::class, 'index'])->name('history.index');
+});
