@@ -11,7 +11,7 @@
         <h2 class="text-sm font-semibold text-gray-700 mb-4">クイズを設定してスタート</h2>
         <form method="POST" action="{{ route('quiz.start') }}">
             @csrf
-            <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                 <div>
                     <label class="block text-xs text-gray-500 mb-1">カテゴリ</label>
                     <select name="section" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
@@ -39,17 +39,27 @@
                     </select>
                 </div>
             </div>
-            <button type="submit"
-                    class="bg-indigo-600 text-white px-6 py-2 rounded-lg text-sm hover:bg-indigo-700">
-                クイズ開始
-            </button>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button type="submit" name="mode" value="normal"
+                        class="bg-indigo-600 text-white px-6 py-2 rounded-lg text-sm hover:bg-indigo-700">
+                    通常クイズ
+                </button>
+                <button type="submit" name="mode" value="review"
+                        class="bg-orange-500 text-white px-6 py-2 rounded-lg text-sm hover:bg-orange-600 flex items-center gap-2">
+                    🔁 復習クイズ
+                    @if($reviewCount > 0)
+                        <span class="bg-white text-orange-500 text-xs px-1.5 py-0.5 rounded-full font-bold">{{ $reviewCount }}</span>
+                    @endif
+                </button>
+            </div>
         </form>
     </div>
 
     {{-- 成績サマリー --}}
     <div class="bg-white rounded-xl border border-gray-200 p-6 max-w-2xl">
         <h2 class="text-sm font-semibold text-gray-700 mb-4">これまでの成績</h2>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
                 <p class="text-xs text-gray-400 mb-1">総解答数</p>
                 <p class="text-2xl font-bold text-indigo-600">{{ $totalQuizzes }}</p>

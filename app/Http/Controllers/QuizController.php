@@ -16,7 +16,13 @@ class QuizController extends Controller
         $correctQuizzes = QuizHistory::where('user_id', auth()->id())->where('is_correct', true)->count();
         $averageScore = $totalQuizzes > 0 ? round($correctQuizzes / $totalQuizzes * 100) : 0;
 
-        return view('quiz.index', compact('sections', 'totalQuizzes', 'correctQuizzes', 'averageScore'));
+        // 復習が必要な単語数
+        $reviewCount = \App\Models\UserWordProgress::where('user_id', auth()->id())
+            ->where('next_review_at', '<=', now())
+            ->where('mastery_level', '<', 5)
+            ->count();
+
+        return view('quiz.index', compact('sections', 'totalQuizzes', 'correctQuizzes', 'averageScore', 'reviewCount'));
     }
 
     // クイズ開始（問題生成）
@@ -26,24 +32,44 @@ class QuizController extends Controller
             'section'    => 'nullable|string',
             'difficulty' => 'nullable|in:easy,normal,hard',
             'count'      => 'required|integer|min:5|max:20',
+            'mode'       => 'nullable|in:normal,review',
         ]);
 
-        $query = Word::query();
+        $userId = auth()->id();
+        $count  = $request->count;
 
-        if ($request->filled('section')) {
-            $query->where('section', $request->section);
+        if ($request->mode === 'review') {
+            $reviewWordIds = \App\Models\UserWordProgress::where('user_id', $userId)
+                ->where('next_review_at', '<=', now())
+                ->where('mastery_level', '<', 5)
+                ->pluck('word_id')
+                ->toArray();
+
+            $words = Word::whereIn('id', $reviewWordIds)
+                ->inRandomOrder()
+                ->limit($count)
+                ->get();
+
+            if ($words->count() < 1) {
+                return back()->with('error', '現在復習が必要な単語がありません。');
+            }
+        } else {
+            $query = Word::query();
+
+            if ($request->filled('section')) {
+                $query->where('section', $request->section);
+            }
+            if ($request->filled('difficulty')) {
+                $query->where('difficulty', $request->difficulty);
+            }
+
+            $words = $query->inRandomOrder()->limit($count)->get();
+
+            if ($words->count() < 1) {
+                return back()->with('error', '条件に合う単語がありません。');
+            }
         }
-        if ($request->filled('difficulty')) {
-            $query->where('difficulty', $request->difficulty);
-        }
 
-        $words = $query->inRandomOrder()->limit($request->count)->get();
-
-        if ($words->count() < 1) {
-            return back()->with('error', '条件に合う単語がありません。');
-        }
-
-        // セッションに問題リストを保存
         session(['quiz_words' => $words->pluck('id')->toArray(), 'quiz_index' => 0]);
 
         return redirect()->route('quiz.play');
@@ -62,7 +88,6 @@ class QuizController extends Controller
         $word = Word::find($wordIds[$index]);
         $total = count($wordIds);
 
-        // 4択の選択肢を生成（正解＋ランダム3つ）
         $choices = Word::where('id', '!=', $word->id)->inRandomOrder()->limit(3)->pluck('term')->toArray();
         $choices[] = $word->term;
         shuffle($choices);
@@ -79,7 +104,6 @@ class QuizController extends Controller
 
         $isCorrect = $request->answer === $word->term;
 
-        // 解答履歴を保存
         QuizHistory::create([
             'user_id'     => auth()->id(),
             'word_id'     => $word->id,
@@ -87,7 +111,23 @@ class QuizController extends Controller
             'answered_at' => now(),
         ]);
 
-        // 次の問題へ
+        $progress = \App\Models\UserWordProgress::firstOrCreate(
+            ['user_id' => auth()->id(), 'word_id' => $word->id],
+            ['mastery_level' => 0]
+        );
+
+        if ($isCorrect) {
+            $newLevel = min($progress->mastery_level + 1, 5);
+        } else {
+            $newLevel = max($progress->mastery_level - 1, 0);
+        }
+
+        $progress->update([
+            'mastery_level'    => $newLevel,
+            'last_reviewed_at' => now(),
+            'next_review_at'   => \App\Models\UserWordProgress::calcNextReviewAt($newLevel),
+        ]);
+
         session(['quiz_index' => $index + 1]);
 
         return redirect()->route('quiz.play');
@@ -112,7 +152,6 @@ class QuizController extends Controller
         $total   = $histories->count();
         $score   = $total > 0 ? round($correct / $total * 100) : 0;
 
-        // セッションクリア
         session()->forget(['quiz_words', 'quiz_index']);
 
         return view('quiz.result', compact('histories', 'correct', 'total', 'score'));
