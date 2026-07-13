@@ -7,7 +7,7 @@
     @endif
 
     @if($words->count() > 0)
-        <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             @foreach($words as $word)
                 <div class="bg-white rounded-xl p-4 border border-gray-200 hover:shadow-md transition">
                     <div class="flex items-center justify-between mb-2">

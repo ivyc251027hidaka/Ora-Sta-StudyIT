@@ -2,7 +2,7 @@
 
     {{-- 検索・フィルター --}}
     <form method="GET" action="{{ route('words.index') }}" class="mb-6">
-        <div class="flex gap-3">
+        <div class="flex flex-col sm:flex-row gap-3">
             <input type="text" name="search" value="{{ request('search') }}"
                 placeholder="SQLキーワードを検索..."
                 class="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
@@ -29,12 +29,11 @@
             </button>
         </div>
     </form>
-
     {{-- 単語カードグリッド --}}
     @if($words->count() > 0)
-        <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             @foreach($words as $word)
-                <div class="bg-white rounded-xl p-4 border border-gray-200 hover:shadow-md transition">
+                <div class="bg-white rounded-xl p-4 border border-gray-200 hover:shadow-md transition overflow-hidden">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs px-2 py-1 rounded-full
                             {{ $word->difficulty === 'easy' ? 'bg-green-100 text-green-700' : '' }}
@@ -45,7 +44,7 @@
                         <span class="text-xs text-gray-400">{{ $word->section }}</span>
                     </div>
                     <h3 class="text-sm font-bold text-gray-800 mb-1">{{ $word->term }}</h3>
-                    <p class="text-xs text-gray-500 line-clamp-2">{{ $word->description }}</p>
+                    <p class="text-xs text-gray-500 line-clamp-2 break-words overflow-hidden">{{ $word->description }}</p>
                     <a href="{{ route('words.show', $word) }}"
                         class="mt-3 inline-block text-xs text-indigo-600 hover:underline">詳しく見る →</a>
                 </div>

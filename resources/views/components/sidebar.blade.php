@@ -10,8 +10,14 @@
 <body class="bg-gray-100 font-sans">
     <div class="flex min-h-screen">
 
+        {{-- オーバーレイ（モバイル用） --}}
+        <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden lg:hidden"
+             onclick="toggleSidebar()"></div>
+
         {{-- サイドバー --}}
-        <aside class="w-48 bg-white border-r border-gray-200 flex flex-col py-4 px-3 fixed h-full">
+        <aside id="sidebar"
+               class="fixed top-0 left-0 h-full w-48 bg-white border-r border-gray-200 flex flex-col py-4 px-3 z-30
+                      transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
 
             {{-- ロゴ --}}
             <div class="mb-6 px-2">
@@ -67,25 +73,53 @@
         </aside>
 
         {{-- メインコンテンツ --}}
-        <div class="ml-48 flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col lg:ml-48">
 
             {{-- トップバー --}}
-            <header class="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center">
-                <h1 class="text-lg font-semibold text-gray-800">{{ $title ?? 'ダッシュボード' }}</h1>
+            <header class="bg-white border-b border-gray-200 px-4 lg:px-6 py-3 flex justify-between items-center sticky top-0 z-10">
                 <div class="flex items-center gap-3">
-                    <span class="text-sm text-gray-600">{{ auth()->user()->name }}</span>
+                    {{-- ハンバーガーボタン（モバイルのみ） --}}
+                    <button onclick="toggleSidebar()"
+                            class="lg:hidden p-1 rounded-lg text-gray-600 hover:bg-gray-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                    <h1 class="text-base lg:text-lg font-semibold text-gray-800">{{ $title ?? 'ダッシュボード' }}</h1>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="hidden sm:block text-sm text-gray-600">{{ auth()->user()->name }}</span>
                     <a href="{{ route('profile.edit') }}"
-                       class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-content text-indigo-700 text-sm font-bold">
+                       class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 text-sm font-bold">
                         {{ substr(auth()->user()->name, 0, 1) }}
                     </a>
                 </div>
             </header>
 
             {{-- ページ本体 --}}
-            <main class="flex-1 p-6">
+            <main class="flex-1 p-4 lg:p-6">
                 {{ $slot }}
             </main>
         </div>
     </div>
+
+    <script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const isOpen = !sidebar.classList.contains('-translate-x-full');
+
+        if (isOpen) {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        } else {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+    }
+</script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <x-sidebar title="ホーム">
 
     {{-- 統計カード --}}
-    <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-xl p-4 border border-gray-200">
             <p class="text-xs text-gray-400 mb-1">連続学習日数</p>
             <p class="text-2xl font-bold text-indigo-600">1 <span class="text-sm font-normal text-gray-400">日</span></p>
@@ -20,7 +20,7 @@
     </div>
 
     {{-- Today's Word / Today's Quiz --}}
-    <div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div class="bg-white rounded-xl p-4 border border-gray-200">
             <p class="text-xs text-gray-400 mb-2">Today's Word</p>
             @if($todayWord)
@@ -41,7 +41,7 @@
     </div>
 
     {{-- 学習進捗・最近の単語 --}}
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="bg-white rounded-xl p-4 border border-gray-200">
             <p class="text-xs text-gray-400 mb-2">お気に入り登録数</p>
             <div class="w-full bg-gray-100 rounded-full h-2 mb-1">
