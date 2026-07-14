@@ -45,6 +45,14 @@
                     </div>
                     <h3 class="text-sm font-bold text-gray-800 mb-1">{{ $word->term }}</h3>
                     <p class="text-xs text-gray-500 line-clamp-2 break-words overflow-hidden">{{ $word->description }}</p>
+                    {{-- 習熟度バー --}}
+                    @php $level = $progressMap[$word->id] ?? 0; @endphp
+                    <div class="flex items-center gap-1 mt-2">
+                        @for($i = 1; $i <= 5; $i++)
+                            <div class="flex-1 h-1.5 rounded-full {{ $i <= $level ? 'bg-indigo-500' : 'bg-gray-200' }}"></div>
+                        @endfor
+                    </div>
+                    
                     <a href="{{ route('words.show', $word) }}"
                         class="mt-3 inline-block text-xs text-indigo-600 hover:underline">詳しく見る →</a>
                 </div>

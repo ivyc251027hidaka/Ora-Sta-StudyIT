@@ -8,22 +8,20 @@ use Illuminate\Http\Request;
 class WordController extends Controller
 {
     // 単語一覧
+    // 単語一覧
     public function index(Request $request)
     {
         $query = Word::query();
 
-        // キーワード検索
         if ($request->filled('search')) {
             $query->where('term', 'like', '%' . $request->search . '%')
                   ->orWhere('description', 'like', '%' . $request->search . '%');
         }
 
-        // カテゴリ絞り込み
         if ($request->filled('section')) {
             $query->where('section', $request->section);
         }
 
-        // 難易度絞り込み
         if ($request->filled('difficulty')) {
             $query->where('difficulty', $request->difficulty);
         }
@@ -31,7 +29,11 @@ class WordController extends Controller
         $words = $query->orderBy('term')->paginate(12);
         $sections = Word::distinct()->pluck('section');
 
-        return view('words.index', compact('words', 'sections'));
+        // ログインユーザーの習熟度を取得
+        $progressMap = \App\Models\UserWordProgress::where('user_id', auth()->id())
+            ->pluck('mastery_level', 'word_id');
+
+        return view('words.index', compact('words', 'sections', 'progressMap'));
     }
 
     // 単語詳細
