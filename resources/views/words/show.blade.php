@@ -17,6 +17,28 @@
             </div>
 
             <h1 class="text-2xl font-bold text-gray-800 mb-3">{{ $word->term }}</h1>
+
+            {{-- 習熟度表示 --}}
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-xs text-gray-400">習熟度：</span>
+                @php $level = $progress ? $progress->mastery_level : 0; @endphp
+                <div class="flex gap-1">
+                    @for($i = 1; $i <= 5; $i++)
+                        <div class="w-6 h-2 rounded-full {{ $i <= $level ? 'bg-indigo-500' : 'bg-gray-200' }}"></div>
+                    @endfor
+                </div>
+                <span class="text-xs text-gray-500">
+                    @if($level == 0) 未学習
+                    @elseif($level <= 2) 学習中
+                    @elseif($level <= 4) 定着中
+                    @else 習得済み
+                    @endif
+                </span>
+                @if($progress && $progress->next_review_at)
+                    <span class="text-xs text-gray-400 ml-2">次回復習：{{ $progress->next_review_at->format('m/d') }}</span>
+                @endif
+            </div>
+
             <p class="text-sm text-gray-600 leading-relaxed mb-4">{{ $word->description }}</p>
 
             <div class="flex gap-3">

@@ -35,8 +35,13 @@ class WordController extends Controller
     }
 
     // 単語詳細
+    // 単語詳細
     public function show(Word $word)
     {
-        return view('words.show', compact('word'));
+        $progress = \App\Models\UserWordProgress::where('user_id', auth()->id())
+            ->where('word_id', $word->id)
+            ->first();
+
+        return view('words.show', compact('word', 'progress'));
     }
 }
