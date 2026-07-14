@@ -134,6 +134,7 @@ class QuizController extends Controller
     }
 
     // 結果画面
+    // 結果画面
     public function result()
     {
         $wordIds = session('quiz_words', []);
@@ -152,8 +153,13 @@ class QuizController extends Controller
         $total   = $histories->count();
         $score   = $total > 0 ? round($correct / $total * 100) : 0;
 
+        // 習熟度データを取得
+        $progressMap = \App\Models\UserWordProgress::where('user_id', auth()->id())
+            ->whereIn('word_id', $wordIds)
+            ->pluck('mastery_level', 'word_id');
+
         session()->forget(['quiz_words', 'quiz_index']);
 
-        return view('quiz.result', compact('histories', 'correct', 'total', 'score'));
+        return view('quiz.result', compact('histories', 'correct', 'total', 'score', 'progressMap'));
     }
 }

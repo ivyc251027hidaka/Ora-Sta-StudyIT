@@ -47,7 +47,23 @@
             <div class="flex flex-col gap-2">
                 @foreach($histories as $history)
                     <div class="flex items-center justify-between py-2 border-b border-gray-50">
-                        <span class="text-sm text-gray-700">{{ $history->word->term }}</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-sm text-gray-700">{{ $history->word->term }}</span>
+                            {{-- 習熟度バー --}}
+                            @php $level = $progressMap[$history->word_id] ?? 0; @endphp
+                            <div class="flex gap-0.5">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <div class="w-4 h-1.5 rounded-full {{ $i <= $level ? 'bg-indigo-500' : 'bg-gray-200' }}"></div>
+                                @endfor
+                            </div>
+                            <span class="text-xs text-gray-400">
+                                @if($level == 0) 未学習
+                                @elseif($level <= 2) 学習中
+                                @elseif($level <= 4) 定着中
+                                @else 習得済み
+                                @endif
+                            </span>
+                        </div>
                         <span class="text-xs px-2 py-0.5 rounded-full
                             {{ $history->is_correct ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600' }}">
                             {{ $history->is_correct ? '正解' : '不正解' }}
