@@ -19,6 +19,23 @@ class DashboardController extends Controller
         $correctQuizzes = QuizHistory::where('user_id', $user->id)->where('is_correct', true)->count();
         $averageScore   = $totalQuizzes > 0 ? round($correctQuizzes / $totalQuizzes * 100) : null;
 
+        // 連続学習日数
+        $streak = 0;
+        $date = now()->startOfDay();
+
+        while (true) {
+            $hasQuiz = QuizHistory::where('user_id', $user->id)
+                ->whereDate('answered_at', $date)
+                ->exists();
+
+            if ($hasQuiz) {
+                $streak++;
+                $date = $date->copy()->subDay();
+            } else {
+                break;
+            }
+        }
+
         // 今日の単語（ランダム1件）
         $todayWord = Word::inRandomOrder()->first();
 
@@ -31,7 +48,7 @@ class DashboardController extends Controller
             ->pluck('word')
             ->unique('id');
 
-        // 学習進捗（お気に入り登録数 / 総単語数）
+        // お気に入り登録数
         $favoriteCount = $user->favorites()->count();
 
         return view('dashboard', compact(
@@ -40,7 +57,8 @@ class DashboardController extends Controller
             'averageScore',
             'todayWord',
             'recentWords',
-            'favoriteCount'
+            'favoriteCount',
+            'streak'
         ));
     }
 }

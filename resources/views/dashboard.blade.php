@@ -4,7 +4,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-xl p-4 border border-gray-200">
             <p class="text-xs text-gray-400 mb-1">連続学習日数</p>
-            <p class="text-2xl font-bold text-indigo-600">1 <span class="text-sm font-normal text-gray-400">日</span></p>
+            <p class="text-2xl font-bold text-indigo-600">{{ $streak }} <span class="text-sm font-normal text-gray-400">日</span></p>
         </div>
         <div class="bg-white rounded-xl p-4 border border-gray-200">
             <p class="text-xs text-gray-400 mb-1">登録単語数</p>
