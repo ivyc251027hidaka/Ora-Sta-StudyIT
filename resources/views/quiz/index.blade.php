@@ -38,6 +38,13 @@
                         <option value="20">20問</option>
                     </select>
                 </div>
+                                <div>
+                    <label class="block text-xs text-gray-500 mb-1">出題形式</label>
+                    <select name="quiz_mode" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                        <option value="normal">通常（説明→用語）</option>
+                        <option value="reverse">逆引き（用語→説明）</option>
+                    </select>
+                </div>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3">

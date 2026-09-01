@@ -15,23 +15,34 @@
 
         {{-- 問題カード --}}
         <div class="bg-white rounded-xl border border-gray-200 p-6">
-            <div class="mb-2">
+            <div class="mb-2 flex items-center gap-2">
                 <span class="text-xs px-2 py-1 rounded-full bg-indigo-100 text-indigo-700">{{ $word->section }}</span>
+                @if($quizMode === 'reverse')
+                    <span class="text-xs px-2 py-1 rounded-full bg-orange-100 text-orange-700">逆引きモード</span>
+                @endif
             </div>
-            <p class="text-sm font-semibold text-gray-700 mb-2">次の説明に当てはまるSQL用語はどれですか？</p>
-            <p class="text-sm text-gray-600 leading-relaxed mb-4">{{ $word->description }}</p>
 
-            @if($word->sql_example)
+            @if($quizMode === 'reverse')
+                {{-- 逆引きモード：用語を表示して説明を選ぶ --}}
+                <p class="text-sm font-semibold text-gray-700 mb-2">次の用語の説明として正しいものはどれですか？</p>
+                <p class="text-xl font-bold text-indigo-700 mb-4">{{ $word->term }}</p>
+            @else
+                {{-- 通常モード：説明を表示して用語を選ぶ --}}
+                <p class="text-sm font-semibold text-gray-700 mb-2">次の説明に当てはまるSQL用語はどれですか？</p>
+                <p class="text-sm text-gray-600 leading-relaxed mb-4">{{ $word->description }}</p>
+            @endif
+
+            @if($word->sql_example && $quizMode === 'normal')
             <pre class="bg-gray-900 text-green-400 rounded-lg p-3 text-xs font-mono mb-4 overflow-x-auto">{{ $word->sql_example }}</pre>
             @endif
 
             {{-- 選択肢 --}}
             <form method="POST" action="{{ route('quiz.answer') }}">
                 @csrf
-                <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                     @foreach($choices as $choice)
-                        <label class="flex items-center gap-2 border border-gray-200 rounded-lg px-4 py-3 cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 transition">
-                            <input type="radio" name="answer" value="{{ $choice }}" class="text-indigo-600" required>
+                        <label class="flex items-start gap-2 border border-gray-200 rounded-lg px-4 py-3 cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 transition">
+                            <input type="radio" name="answer" value="{{ $choice }}" class="text-indigo-600 mt-0.5 flex-shrink-0" required>
                             <span class="text-sm text-gray-700">{{ $choice }}</span>
                         </label>
                     @endforeach

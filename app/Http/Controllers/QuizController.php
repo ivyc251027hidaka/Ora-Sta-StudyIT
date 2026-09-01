@@ -28,11 +28,12 @@ class QuizController extends Controller
     // クイズ開始（問題生成）
     public function start(Request $request)
     {
-        $request->validate([
+                $request->validate([
             'section'    => 'nullable|string',
             'difficulty' => 'nullable|in:easy,normal,hard',
             'count'      => 'required|integer|min:5|max:20',
             'mode'       => 'nullable|in:normal,review',
+            'quiz_mode'  => 'nullable|in:normal,reverse',
         ]);
 
         $userId = auth()->id();
@@ -70,29 +71,51 @@ class QuizController extends Controller
             }
         }
 
-        session(['quiz_words' => $words->pluck('id')->toArray(), 'quiz_index' => 0]);
+                session([
+            'quiz_words' => $words->pluck('id')->toArray(),
+            'quiz_index' => 0,
+            'quiz_mode'  => $request->quiz_mode ?? 'normal',
+        ]);
 
         return redirect()->route('quiz.play');
     }
 
     // クイズ出題画面
+        // クイズ出題画面
     public function play()
     {
-        $wordIds = session('quiz_words', []);
-        $index   = session('quiz_index', 0);
+        $wordIds  = session('quiz_words', []);
+        $index    = session('quiz_index', 0);
+        $quizMode = session('quiz_mode', 'normal');
 
         if (empty($wordIds) || $index >= count($wordIds)) {
             return redirect()->route('quiz.result');
         }
 
-        $word = Word::find($wordIds[$index]);
+        $word  = Word::find($wordIds[$index]);
         $total = count($wordIds);
 
-        $choices = Word::where('id', '!=', $word->id)->inRandomOrder()->limit(3)->pluck('term')->toArray();
-        $choices[] = $word->term;
+        if ($quizMode === 'reverse') {
+            // 逆引きモード：用語→説明を選ぶ
+            $choices = Word::where('id', '!=', $word->id)
+                ->inRandomOrder()
+                ->limit(3)
+                ->pluck('description')
+                ->toArray();
+            $choices[] = $word->description;
+        } else {
+            // 通常モード：説明→用語を選ぶ
+            $choices = Word::where('id', '!=', $word->id)
+                ->inRandomOrder()
+                ->limit(3)
+                ->pluck('term')
+                ->toArray();
+            $choices[] = $word->term;
+        }
+
         shuffle($choices);
 
-        return view('quiz.play', compact('word', 'choices', 'index', 'total'));
+        return view('quiz.play', compact('word', 'choices', 'index', 'total', 'quizMode'));
     }
 
     // 解答処理
@@ -102,7 +125,10 @@ class QuizController extends Controller
         $index   = session('quiz_index', 0);
         $word    = Word::find($wordIds[$index]);
 
-        $isCorrect = $request->answer === $word->term;
+                $quizMode  = session('quiz_mode', 'normal');
+        $isCorrect = $quizMode === 'reverse'
+            ? $request->answer === $word->description
+            : $request->answer === $word->term;
 
         QuizHistory::create([
             'user_id'     => auth()->id(),
