@@ -56,6 +56,7 @@
                 @endfor
             </div>
             <div class="flex items-center gap-3 mt-3 text-xs text-gray-400">
+                <span class="text-gray-500 font-medium">正答率：</span>
                 <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>80%以上</span>
                 <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-yellow-400 inline-block"></span>50%以上</span>
                 <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-400 inline-block"></span>50%未満</span>
@@ -63,7 +64,7 @@
         </div>
 
         {{-- グラフ --}}
-        <div class="bg-white rounded-xl border border-gray-200 p-4">
+        <div class="bg-white rounded-xl border border-gray-200 p-4" style="overflow: hidden;">
             <div class="flex items-center justify-between mb-3">
                 <h2 class="text-sm font-semibold text-gray-700">学習量グラフ</h2>
                 <div class="flex gap-1">
@@ -75,46 +76,59 @@
                     @endforeach
                 </div>
             </div>
-                        <div class="flex items-end gap-1 h-48">
+
+            {{-- スクロール可能なグラフエリア --}}
+            <div style="overflow-x: auto; overflow-y: hidden;">
                 @php
                     $counts = array_column($graphData, 'count');
                     $maxCount = count($counts) > 0 ? max(max($counts), 1) : 1;
+                    $barWidth = 32;
+                    $graphWidth = count($graphData) * ($barWidth + 4);
                 @endphp
-                @foreach($graphData as $day)
-                    @php
-                        $height = $day['count'] > 0 ? max(($day['count'] / $maxCount) * 100, 5) : 2;
-                        $correctRate = $day['count'] > 0 ? $day['correct'] / $day['count'] : 0;
-                        $barColor = $day['count'] > 0
-                            ? ($correctRate >= 0.8 ? '#22c55e' : ($correctRate >= 0.5 ? '#facc15' : '#f87171'))
-                            : '#e5e7eb';
-                    @endphp
-                    <div class="flex-1 flex flex-col items-center group relative">
-                        {{-- 解答数 --}}
-                        @if($day['count'] > 0)
-                            <span class="text-xs font-bold mb-0.5" style="color: {{ $barColor }}; font-size: 9px;">
-                                {{ $day['count'] }}
-                            </span>
-                        @else
-                            <span style="font-size: 9px;" class="mb-0.5">&nbsp;</span>
-                        @endif
-                        {{-- 棒 --}}
-                        <div class="w-full rounded-t transition-all"
-                             style="height: {{ $height }}%;
-                                    min-height: 2px;
-                                    background-color: {{ $barColor }};">
-                        </div>
-                        {{-- ツールチップ --}}
-                        @if($day['count'] > 0)
-                            <div class="absolute bottom-full mb-6 hidden group-hover:block bg-gray-800 text-white text-xs rounded px-1.5 py-0.5 whitespace-nowrap z-10">
-                                {{ $day['label'] }}: {{ $day['count'] }}問 / 正答率{{ $day['count'] > 0 ? round($day['correct'] / $day['count'] * 100) : 0 }}%
+                <div style="min-width: {{ $graphWidth }}px; width: {{ $graphWidth }}px;">
+                    <div class="flex items-end gap-1" style="height: 160px;">
+                        @foreach($graphData as $day)
+                            @php
+                                $height = $day['count'] > 0 ? max(($day['count'] / $maxCount) * 100, 5) : 2;
+                                $correctRate = $day['count'] > 0 ? $day['correct'] / $day['count'] : 0;
+                                $barColor = $day['count'] > 0
+                                    ? ($correctRate >= 0.8 ? '#22c55e' : ($correctRate >= 0.5 ? '#facc15' : '#f87171'))
+                                    : '#e5e7eb';
+                            @endphp
+                            <div class="flex flex-col items-center group relative" style="width: {{ $barWidth }}px; flex-shrink: 0;">
+                                <span class="font-bold mb-1 leading-none text-xs" style="color: {{ $barColor }};">
+                                    {{ $day['count'] > 0 ? $day['count'] : '' }}
+                                </span>
+                                <div class="w-full rounded-t transition-all"
+                                     style="height: {{ $height }}%;
+                                            min-height: {{ $day['count'] > 0 ? '4px' : '2px' }};
+                                            background-color: {{ $barColor }};">
+                                </div>
+                                @if($day['count'] > 0)
+                                    <div class="absolute bottom-full mb-1 hidden group-hover:flex flex-col bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10 shadow-lg">
+                                        <span class="font-bold">{{ $day['label'] }}</span>
+                                        <span>{{ $day['count'] }}問解答</span>
+                                        <span>正答率 {{ round($correctRate * 100) }}%</span>
+                                    </div>
+                                @endif
                             </div>
-                        @endif
+                        @endforeach
                     </div>
-                @endforeach
+                    <div class="flex gap-1 mt-1">
+                        @foreach($graphData as $day)
+                            <div class="text-center text-gray-400" style="width: {{ $barWidth }}px; flex-shrink: 0; font-size: 9px;">
+                                {{ $day['label'] }}
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
-            <div class="flex justify-between text-xs text-gray-400 mt-1">
-                <span>{{ $graphData[0]['label'] ?? '' }}</span>
-                <span>{{ $graphData[count($graphData)-1]['label'] ?? '' }}</span>
+
+            <div class="flex items-center gap-3 mt-3 text-xs text-gray-400">
+                <span class="text-gray-500 font-medium">正答率：</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded inline-block bg-green-500"></span>80%以上</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded inline-block bg-yellow-400"></span>50%以上</span>
+                <span class="flex items-center gap-1"><span class="w-3 h-3 rounded inline-block bg-red-400"></span>50%未満</span>
             </div>
         </div>
     </div>
