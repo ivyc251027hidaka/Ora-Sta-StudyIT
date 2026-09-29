@@ -36,17 +36,28 @@
             <pre class="bg-gray-900 text-green-400 rounded-lg p-3 text-xs font-mono mb-4 overflow-x-auto">{{ $word->sql_example }}</pre>
             @endif
 
-            {{-- 選択肢 --}}
+                        {{-- 選択肢 --}}
             <form method="POST" action="{{ route('quiz.answer') }}">
                 @csrf
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                    @foreach($choices as $choice)
-                        <label class="flex items-start gap-2 border border-gray-200 rounded-lg px-4 py-3 cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 transition">
-                            <input type="radio" name="answer" value="{{ $choice }}" class="text-indigo-600 mt-0.5 flex-shrink-0" required>
-                            <span class="text-sm text-gray-700">{{ $choice }}</span>
-                        </label>
-                    @endforeach
-                </div>
+                @if($word->quiz_type === 'written')
+                    {{-- 記述式 --}}
+                    <div class="mb-4">
+                        <p class="text-xs text-gray-400 mb-2">用語名を入力してください（大文字・小文字は区別しません）</p>
+                        <input type="text" name="answer"
+                               class="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                               placeholder="例：INNER JOIN" required autofocus>
+                    </div>
+                @else
+                    {{-- 4択 --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                        @foreach($choices as $choice)
+                            <label class="flex items-start gap-2 border border-gray-200 rounded-lg px-4 py-3 cursor-pointer hover:bg-indigo-50 hover:border-indigo-300 transition">
+                                <input type="radio" name="answer" value="{{ $choice }}" class="text-indigo-600 mt-0.5 flex-shrink-0" required>
+                                <span class="text-sm text-gray-700">{{ $choice }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+                @endif
                 <div class="flex justify-end">
                     <button type="submit"
                             class="bg-indigo-600 text-white px-6 py-2 rounded-lg text-sm hover:bg-indigo-700">

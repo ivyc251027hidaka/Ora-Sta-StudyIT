@@ -82,6 +82,7 @@ class QuizController extends Controller
 
     // クイズ出題画面
         // クイズ出題画面
+        // クイズ出題画面
     public function play()
     {
         $wordIds  = session('quiz_words', []);
@@ -96,20 +97,44 @@ class QuizController extends Controller
         $total = count($wordIds);
 
         if ($quizMode === 'reverse') {
-            // 逆引きモード：用語→説明を選ぶ
+            // 逆引きモード：同じカテゴリの説明文を選択肢に
             $choices = Word::where('id', '!=', $word->id)
+                ->where('section', $word->section)
                 ->inRandomOrder()
                 ->limit(3)
                 ->pluck('description')
                 ->toArray();
+
+            // 同カテゴリが3つ未満の場合は他カテゴリで補完
+            if (count($choices) < 3) {
+                $additional = Word::where('id', '!=', $word->id)
+                    ->where('section', '!=', $word->section)
+                    ->inRandomOrder()
+                    ->limit(3 - count($choices))
+                    ->pluck('description')
+                    ->toArray();
+                $choices = array_merge($choices, $additional);
+            }
             $choices[] = $word->description;
         } else {
-            // 通常モード：説明→用語を選ぶ
+            // 通常モード：同じカテゴリの用語を選択肢に
             $choices = Word::where('id', '!=', $word->id)
+                ->where('section', $word->section)
                 ->inRandomOrder()
                 ->limit(3)
                 ->pluck('term')
                 ->toArray();
+
+            // 同カテゴリが3つ未満の場合は他カテゴリで補完
+            if (count($choices) < 3) {
+                $additional = Word::where('id', '!=', $word->id)
+                    ->where('section', '!=', $word->section)
+                    ->inRandomOrder()
+                    ->limit(3 - count($choices))
+                    ->pluck('term')
+                    ->toArray();
+                $choices = array_merge($choices, $additional);
+            }
             $choices[] = $word->term;
         }
 
@@ -125,10 +150,16 @@ class QuizController extends Controller
         $index   = session('quiz_index', 0);
         $word    = Word::find($wordIds[$index]);
 
-                $quizMode  = session('quiz_mode', 'normal');
-        $isCorrect = $quizMode === 'reverse'
-            ? $request->answer === $word->description
-            : $request->answer === $word->term;
+                        $quizMode  = session('quiz_mode', 'normal');
+
+        if ($word->quiz_type === 'written') {
+            // 記述式：大文字小文字を区別しない
+            $isCorrect = strtolower(trim($request->answer)) === strtolower(trim($word->term));
+        } elseif ($quizMode === 'reverse') {
+            $isCorrect = $request->answer === $word->description;
+        } else {
+            $isCorrect = $request->answer === $word->term;
+        }
 
         QuizHistory::create([
             'user_id'     => auth()->id(),
